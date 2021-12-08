@@ -1,5 +1,6 @@
 import pandas as pd
 import numpy as np
+from glob import glob
 
 def parse(x):
     row = [None, None, None]
@@ -18,19 +19,22 @@ def cont_check(arr1, arr2):
 
 def space_z(arr):
     return np.linspace(0,30,len(arr))
-       
-data = pd.read_csv("gcodes/M_Wanne.gcode", header=None)
-data = data[0].str.split(" ", expand=True)
-print(data.head())
 
-#data = data.apply(parse, axis=1)
-#data.to_csv('gcode.csv')
-data = pd.read_csv('gcode.csv')
-z_levels = data.Z.unique()
-z_levels_trim = z_levels[len(z_levels)//2:len(z_levels)//2+5]
-data = data.fillna(value=None, method='ffill', axis=0)
-data = data[cont_check(data.Z, z_levels_trim)]
+files =  glob("gcodes/*")
+for i, file in enumerate(files):
+    data = pd.read_csv(file, header=None)
+    data = data[0].str.split(" ", expand=True)
+    print(data.head())
+    data = data.apply(parse, axis=1)
+    parts = np.linspace(0.1,0.8,6)
+    for j in range(len(parts)):
+        print("started "+str(i)+"_"+str(j))
+        # data.to_csv('gcode.csv')
+        # data = pd.read_csv('gcode.csv')
+        z_levels = data.Z.unique()
+        z_levels_trim = z_levels[int(len(z_levels)*parts[j]):int(len(z_levels)*parts[j])+5]
+        data2 = data.fillna(value=None, method='ffill', axis=0)
+        data2 = data2[cont_check(data2.Z, z_levels_trim)]
 
-data.Z = space_z(data.Z)
-np.save("gcode.npy",data)
-print(len(data.Z.unique()))
+        data2.Z = space_z(data2.Z)
+        np.save("gcodes_npy/"+str(i)+"_"+str(j)+".npy",data2)
