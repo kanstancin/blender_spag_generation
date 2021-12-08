@@ -197,6 +197,7 @@ def save_render(path_out, num_rotation_steps=2):
         bpy.ops.render.render( write_still=True )
 
 from mathutils import Vector
+from glob import glob
 import math
 def save_render2(path_out, num_rotation_steps=2, h_range=[30, 80], bckg_transparent=True):
     camera = bpy.data.objects['Camera']  # Make sure your first camera is named 'MainCamera'
@@ -216,7 +217,9 @@ def save_render2(path_out, num_rotation_steps=2, h_range=[30, 80], bckg_transpar
     track_to.target = target
     track_to.track_axis = 'TRACK_NEGATIVE_Z'
     track_to.up_axis = 'UP_Y'
-    for step_num in range(num_rotation_steps):
+
+    files_num = len(glob(os.path.join(path_out, "*")))
+    for step_num in range(files_num, files_num+num_rotation_steps):
         h = math.radians(random.uniform(h_range[0],h_range[1]))
         alpha = 2 * math.pi * random.random()
         x = r * math.cos(h) * math.cos(alpha)
@@ -238,6 +241,6 @@ def save_render2(path_out, num_rotation_steps=2, h_range=[30, 80], bckg_transpar
         bpy.context.scene.render.image_settings.color_mode = 'RGBA'
         # bpy.ops.view3d.camera_to_view_selected()
         bpy.context.scene.render.filepath = file
-        bpy.context.scene.render.resolution_x = 1920 #3840 #1920
-        bpy.context.scene.render.resolution_y = 1080 #3840 #1080
+        bpy.context.scene.render.resolution_x = 2000 #3840 #1920
+        bpy.context.scene.render.resolution_y = 2000 #3840 #1080
         bpy.ops.render.render( write_still=True )
