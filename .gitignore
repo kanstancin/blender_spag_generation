@@ -1,3 +1,5 @@
 gcodes/
 .idea/
 /pictures/
+/gcodes_npy/
+__pycache__/
