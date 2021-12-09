@@ -3,7 +3,7 @@
 FILES="~/Downloads/raw_meshes/raw_meshes/*.stl"
 out_path="~/workspace/blender_spag_generation/gcodes/"
 i=0
-for f in ~/Downloads/raw_meshes/raw_meshes/*.stl
+for f in *.stl
 do
   ((i=i+1))
   echo $i
@@ -11,7 +11,7 @@ do
   echo $f
   #./MyProgram.exe "$filename" "Logs/$(basename "$filename" .txt)_Log$i.txt"
   #  mandoline -o "$out_path$(basename "$f").gcode" -n "$f"
-  mandoline -o ~/workspace/blender_spag_generation/gcodes/$i.gcode -n "$f"
+  mandoline -o ~/blender_spag_generation/gcodes/$i.gcode -n "$f"
   if [[ $i -eq 150 ]]; then
     break
   fi

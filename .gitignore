@@ -1,3 +1,5 @@
 gcodes/
 .idea/
 /pictures/
+STLs/
+gcodes_npy/

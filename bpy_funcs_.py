@@ -29,8 +29,13 @@ def stretch_z(arr, space):
     return np.linspace(0,space,len(arr))
         
 def add_spline_from_gcode(filename, s_x=0.1, s_y=0.1, s_z=0.3, sparse_rate=10, space_z=3):
-    coords_list = np.load(filename)       
-    coords_list = np.array(coords_list[::sparse_rate,1:] / 10)
+    coords_list = np.load(filename,  allow_pickle=True) 
+    coords_list = coords_list.astype(np.float)
+    print(coords_list)
+    print(coords_list.dtype)      
+    print(coords_list.shape)
+    coords_list = np.array(coords_list[::sparse_rate] / 10)
+    print(coords_list.shape)
     coords_list[:,2] = stretch_z(coords_list[:,2],space_z)
     coords_list = coords_list.tolist()
     coords_list = center_obj(coords_list) 
@@ -241,6 +246,6 @@ def save_render2(path_out, num_rotation_steps=2, h_range=[30, 80], bckg_transpar
         bpy.context.scene.render.image_settings.color_mode = 'RGBA'
         # bpy.ops.view3d.camera_to_view_selected()
         bpy.context.scene.render.filepath = file
-        bpy.context.scene.render.resolution_x = 2000 #3840 #1920
-        bpy.context.scene.render.resolution_y = 2000 #3840 #1080
+        bpy.context.scene.render.resolution_x = 5000 #3840 #1920
+        bpy.context.scene.render.resolution_y = 5000 #3840 #1080
         bpy.ops.render.render( write_still=True )
