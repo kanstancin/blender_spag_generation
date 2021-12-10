@@ -6,13 +6,17 @@ i=0
 for f in *.stl
 do
   ((i=i+1))
+  if [[ $i -le 150 ]]; then
+    echo $f
+    continue
+  fi
   echo $i
   #filename="${f%.*}"
   echo $f
   #./MyProgram.exe "$filename" "Logs/$(basename "$filename" .txt)_Log$i.txt"
   #  mandoline -o "$out_path$(basename "$f").gcode" -n "$f"
   mandoline -o ~/blender_spag_generation/gcodes/$i.gcode -n "$f"
-  if [[ $i -eq 150 ]]; then
+  if [[ $i -eq 500 ]]; then
     break
   fi
 done

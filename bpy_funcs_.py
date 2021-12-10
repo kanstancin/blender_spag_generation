@@ -246,6 +246,6 @@ def save_render2(path_out, num_rotation_steps=2, h_range=[30, 80], bckg_transpar
         bpy.context.scene.render.image_settings.color_mode = 'RGBA'
         # bpy.ops.view3d.camera_to_view_selected()
         bpy.context.scene.render.filepath = file
-        bpy.context.scene.render.resolution_x = 5000 #3840 #1920
-        bpy.context.scene.render.resolution_y = 5000 #3840 #1080
+        bpy.context.scene.render.resolution_x = 2000 #3840 #1920
+        bpy.context.scene.render.resolution_y = 2000 #3840 #1080
         bpy.ops.render.render( write_still=True )
