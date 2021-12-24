@@ -11,6 +11,8 @@ from math import *
 from mathutils import *
 import os
 
+#import cv2 as cv
+
 def center_obj(arr):
         arr = np.array(arr)
         x_avg = stat.mean(arr[:,0])
@@ -246,6 +248,21 @@ def save_render2(path_out, num_rotation_steps=2, h_range=[30, 80], bckg_transpar
         bpy.context.scene.render.image_settings.color_mode = 'RGBA'
         # bpy.ops.view3d.camera_to_view_selected()
         bpy.context.scene.render.filepath = file
-        bpy.context.scene.render.resolution_x = 2000 #3840 #1920
-        bpy.context.scene.render.resolution_y = 2000 #3840 #1080
+        bpy.context.scene.render.resolution_x = 7000 #3840 #1920
+        bpy.context.scene.render.resolution_y = 7000 #3840 #1080
         bpy.ops.render.render( write_still=True )
+	
+        #img = cv.imread(os.path.join(file, ".png"), cv.IMREAD_UNCHANGED)
+        #img = crop_frg(img)
+        #cv.imwrite(os.path.join(file, ".png"), img)
+
+def crop_frg(im):
+        non_zero = im[:, :, 3].nonzero()
+        i_min, i_max = [np.min(non_zero[0]), np.max(non_zero[0])]
+        j_min, j_max = [np.min(non_zero[1]), np.max(non_zero[1])]
+        print(i_min, i_max )
+        print(j_min, j_max)
+        print(non_zero)
+        return im[i_min:i_max, j_min:j_max]
+
+
