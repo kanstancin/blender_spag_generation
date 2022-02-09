@@ -6,3 +6,5 @@ gcodes_npy/
 gcodes_npy_/
 pictures2/
 pictures_cropped/
+stl_to_gcode_*
+

@@ -1,14 +1,27 @@
 import pandas as pd
 import numpy as np
+import re
 from glob import glob
 
 def parse(x):
     row = [None, None, None]
+    
+    '''
     for val in x:
         if val == None: continue
         if val[0] == "X": row[0] = val[1:]
         elif val[0] == "Y": row[1] = val[1:]
         elif val[0] == "Z": row[2] = val[1:]
+    '''
+    x = x.to_string()
+    coord = ['X', 'Y', 'Z']
+    for i, axis in enumerate(coord):
+        val = re.findall(f'[{axis}](?:([0-9.]{1,15}))', x)
+        if len(val) == 0:
+            row[i] = None
+        else:
+            row[i] = val[0]
+
     return pd.Series(row, index=['X', 'Y', 'Z'])
     
 def cont_check(arr1, arr2):
@@ -24,6 +37,7 @@ files =  glob("gcodes/*")
 for i, file in enumerate(files):
     data = pd.read_csv(file, header=None)
     data = data[0].str.split(" ", expand=True)
+    print(file)
     print(data.head())
     data = data.apply(parse, axis=1)
     parts = np.linspace(0.1,0.8,6)

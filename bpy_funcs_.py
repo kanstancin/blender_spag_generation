@@ -37,6 +37,8 @@ def add_spline_from_gcode(filename, s_x=0.1, s_y=0.1, s_z=0.3, sparse_rate=10, s
     print(coords_list.dtype)      
     print(coords_list.shape)
     coords_list = np.array(coords_list[::sparse_rate] / 10)
+    if coords_list.shape[0] > 20000:
+    	coords_list = coords_list[0:20000]
     print(coords_list.shape)
     coords_list[:,2] = stretch_z(coords_list[:,2],space_z)
     coords_list = coords_list.tolist()
@@ -94,7 +96,7 @@ def add_spline_from_gcode_bezier(filename):
     obj = bpy.data.objects.new('gcode', crv)
     bpy.context.scene.collection.objects.link(obj)
     ###########
-    
+    00000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000
 def create_random_sp(number_cuts, resize=[2,1,3], seed=0):
     ops.curve.primitive_bezier_circle_add(radius=1.0,
                                           location=(0.0, 0.0, 0.0),
@@ -248,8 +250,8 @@ def save_render2(path_out, num_rotation_steps=2, h_range=[30, 80], bckg_transpar
         bpy.context.scene.render.image_settings.color_mode = 'RGBA'
         # bpy.ops.view3d.camera_to_view_selected()
         bpy.context.scene.render.filepath = file
-        bpy.context.scene.render.resolution_x = 7000 #3840 #1920
-        bpy.context.scene.render.resolution_y = 7000 #3840 #1080
+        bpy.context.scene.render.resolution_x = 5000 #3840 #1920
+        bpy.context.scene.render.resolution_y = 5000 #3840 #1080
         bpy.ops.render.render( write_still=True )
 	
         #img = cv.imread(os.path.join(file, ".png"), cv.IMREAD_UNCHANGED)
