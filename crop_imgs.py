@@ -11,7 +11,7 @@ def crop_frg(im):
         return im[i_min:i_max, j_min:j_max]
 
 def crop_imgs(i, im_path_in):
-	if i > 1910: 
+	if i > -1: 
 					
 		try:
 			img = cv.imread(im_path_in,cv.IMREAD_UNCHANGED)
@@ -19,7 +19,7 @@ def crop_imgs(i, im_path_in):
 		except Exception as e:
 			print(f"ERROR {e}")	
 			return 1			
-		path_out = "/home/cstar/workspace/blender_spag_generation/pictures_cropped"	
+		path_out = "/home/cstar/workspace/blender_spag_generation/pictures_small_spag_cropped"	
 		im_name = os.path.basename(im_path_in)
 		im_path_out = os.path.join(path_out, im_name)
 		cv.imwrite(im_path_out, img)
@@ -27,8 +27,8 @@ def crop_imgs(i, im_path_in):
 		return 0
 	
 if __name__ == "__main__":
-	path_in = "/home/cstar/workspace/blender_spag_generation/pictures"
-	path_out = "/home/cstar/workspace/blender_spag_generation/pictures_cropped"
+	path_in = "/home/cstar/workspace/blender_spag_generation/pictures_small_spag"
+	path_out = "/home/cstar/workspace/blender_spag_generation/pictures_small_spag_cropped"
 	files = glob(os.path.join(path_in, "*"))
 	pool = Pool()                         # Create a multiprocessing Pool
 	pool.starmap(crop_imgs, enumerate(files)) 

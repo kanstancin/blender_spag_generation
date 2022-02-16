@@ -96,20 +96,31 @@ def add_spline_from_gcode_bezier(filename):
     obj = bpy.data.objects.new('gcode', crv)
     bpy.context.scene.collection.objects.link(obj)
     ###########
-    00000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000
-def create_random_sp(number_cuts, resize=[2,1,3], seed=0):
-    ops.curve.primitive_bezier_circle_add(radius=1.0,
+    
+    
+def create_random_sp(number_cuts, resize=[2,1,3], choice=0, choice2=0, seed=0):
+    if choice == 0:    
+        ops.curve.primitive_bezier_circle_add(radius=1.0,
                                           location=(0.0, 0.0, 0.0),
                                           enter_editmode=True)
-
+        ops.curve.subdivide(number_cuts=number_cuts)
+        ops.transform.vertex_random(offset=0.80, uniform=0.5, normal=0, seed=seed)
+    elif choice == 1:
+        bpy.ops.curve.primitive_nurbs_circle_add(radius=1.0, enter_editmode=True, location=(0.0, 0.0, 0.0))
+        ops.curve.subdivide(number_cuts=number_cuts)
+        ops.transform.vertex_random(offset=0.90, uniform=0.9, normal=0.3, seed=seed)
+        
+        if choice2 == 1:
+            ops.curve.subdivide(number_cuts=int(5))
+            ops.transform.vertex_random(offset=0.1, uniform=0.5, normal=0, seed=seed)
     # Subdivide the curve by a number of cuts, giving the
     # random vertex function more points to work with.
-    ops.curve.subdivide(number_cuts=number_cuts)
+    #ops.curve.subdivide(number_cuts=number_cuts)
 
     # Randomize the vertices of the bezier circle.
     # offset [-inf .. inf], uniform [0.0 .. 1.0],
     # normal [0.0 .. 1.0], RNG seed [0 .. 10000].
-    ops.transform.vertex_random(offset=1.0, uniform=0.5, normal=0.0, seed=seed)
+    #ops.transform.vertex_random(offset=0.1, uniform=0.5, normal=0, seed=seed)
 
     # Scale the curve while in edit mode.
     ops.transform.resize(value=resize)

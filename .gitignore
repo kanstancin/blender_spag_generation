@@ -7,4 +7,5 @@ gcodes_npy_/
 pictures2/
 pictures_cropped/
 stl_to_gcode_*
-
+pictures_small_spag/
+pictures_small_spag_cropped/
